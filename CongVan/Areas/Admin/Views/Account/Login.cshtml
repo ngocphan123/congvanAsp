@@ -1,0 +1,41 @@
+﻿@model CongVan.Areas.Admin.Models.user
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAccount.cshtml";
+}
+<div class="pen-title">
+    <h1> Login Form</h1>
+</div>
+<!-- Form Module-->
+<div class="module form-module">
+    <div class="toggle">
+        <i class="fa fa-times fa-pencil"></i>
+        <div class="tooltip">Click Me</div>
+    </div>
+    <div class="form">
+        @*-----------Form Login----------*@
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "form-login" }))
+        {
+            <h2>Login to your account</h2>
+            <form>
+                @Html.TextBox("UserName", "", new { @class = "form-control input-lg", type = "text", placeholder = "UserName" })
+                @Html.Password("PassWord", "", new { @class = "form-control input-lg", type = "password", placeholder = "Password" })
+                <button>Login</button>
+            </form>
+            <p>
+                @Html.ValidationMessage("Error", new { @StyleBundle = "color:red" })
+            </p>
+        }
+    </div>
+    <div class="form">
+        <h2>Create an account</h2>
+        <form>
+            <input type="text" placeholder="Username" />
+            <input type="password" placeholder="Password" />
+            <input type="email" placeholder="Email Address" />
+            <input type="tel" placeholder="Phone Number" />
+            <button>Register</button>
+        </form>
+    </div>
+    <div class="cta"><a href="http://andytran.me">Forgot your password?</a></div>
+</div>

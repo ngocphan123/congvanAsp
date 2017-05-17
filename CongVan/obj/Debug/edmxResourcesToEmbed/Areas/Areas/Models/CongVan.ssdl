@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CongVanModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="assignment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id_dispatch" Type="int" />
+    <Property Name="id_department" Type="int" />
+    <Property Name="assingtime" Type="datetime" />
+    <Property Name="completiontime" Type="datetime" />
+    <Property Name="userid_command" Type="int" />
+    <Property Name="userid_follow" Type="int" />
+    <Property Name="userid_perform" Type="int" />
+    <Property Name="work_content" Type="nvarchar" MaxLength="500" />
+    <Property Name="result" Type="text" />
+    <Property Name="attach_file" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="cat">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="parentid" Type="int" />
+    <Property Name="title" Type="nvarchar" MaxLength="255" />
+    <Property Name="introduction" Type="text" />
+    <Property Name="addtime" Type="datetime" />
+    <Property Name="status" Type="int" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="depcatid" Type="int" />
+    <Property Name="title" Type="nvarchar" MaxLength="255" />
+    <Property Name="weight" Type="int" />
+  </EntityType>
+  <EntityType Name="department_cat">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="250" />
+    <Property Name="weight" Type="int" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="userid" />
+      <PropertyRef Name="iddepart" />
+    </Key>
+    <Property Name="userid" Type="int" Nullable="false" />
+    <Property Name="iddepart" Type="int" Nullable="false" />
+    <Property Name="office" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="follows">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id_dispatch" Type="int" />
+    <Property Name="id_department" Type="int" />
+    <Property Name="list_userid" Type="nvarchar" MaxLength="255" />
+    <Property Name="list_timeview" Type="text" />
+    <Property Name="list_hitstotal" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="groups_user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="255" />
+    <Property Name="description" Type="text" />
+    <Property Name="group_type" Type="int" />
+    <Property Name="leader_id" Type="int" />
+  </EntityType>
+  <EntityType Name="rows">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" />
+    <Property Name="idcat" Type="int" />
+    <Property Name="idtype" Type="int" />
+    <Property Name="title" Type="nvarchar" MaxLength="255" />
+    <Property Name="abstract" Type="text" />
+    <Property Name="name_signer" Type="nvarchar" MaxLength="255" />
+    <Property Name="name_initial" Type="nvarchar" MaxLength="255" />
+    <Property Name="level_important" Type="int" />
+    <Property Name="number_dispatch" Type="nvarchar" MaxLength="255" />
+    <Property Name="number_text_come" Type="nvarchar" MaxLength="255" />
+    <Property Name="note" Type="text" />
+    <Property Name="publtime" Type="datetime" />
+    <Property Name="date_iss" Type="smalldatetime" />
+    <Property Name="date_first" Type="smalldatetime" />
+    <Property Name="date_die" Type="smalldatetime" />
+    <Property Name="from_org" Type="nvarchar" MaxLength="255" />
+    <Property Name="to_org" Type="nvarchar" MaxLength="255" />
+    <Property Name="dep_catid" Type="int" />
+    <Property Name="to_depid" Type="int" />
+    <Property Name="attach_file" Type="nvarchar" MaxLength="255" />
+    <Property Name="status" Type="tinyint" />
+    <Property Name="term_view" Type="datetime" />
+    <Property Name="reply" Type="tinyint" />
+    <Property Name="groups_view" Type="nvarchar" MaxLength="50" />
+    <Property Name="views" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="type">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="parentid" Type="int" />
+    <Property Name="title" Type="nvarchar" MaxLength="255" />
+    <Property Name="weight" Type="int" />
+    <Property Name="status" Type="int" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="group_id" Type="int" />
+    <Property Name="username" Type="nvarchar" MaxLength="50" />
+    <Property Name="password" Type="nvarchar" MaxLength="150" />
+    <Property Name="email" Type="nvarchar" MaxLength="150" />
+    <Property Name="first_name" Type="nvarchar" MaxLength="150" />
+    <Property Name="last_name" Type="nvarchar" MaxLength="150" />
+    <Property Name="gender" Type="tinyint" />
+    <Property Name="photo" Type="nvarchar" MaxLength="255" />
+    <Property Name="birthday" Type="smalldatetime" />
+    <Property Name="active" Type="tinyint" />
+  </EntityType>
+  <Association Name="FK_assignment_department">
+    <End Role="department" Type="Self.department" Multiplicity="0..1" />
+    <End Role="assignment" Type="Self.assignment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="assignment">
+        <PropertyRef Name="id_department" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_assignment_rows">
+    <End Role="rows" Type="Self.rows" Multiplicity="0..1" />
+    <End Role="assignment" Type="Self.assignment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rows">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="assignment">
+        <PropertyRef Name="id_dispatch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_department_department_cat">
+    <End Role="department_cat" Type="Self.department_cat" Multiplicity="0..1" />
+    <End Role="department" Type="Self.department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department_cat">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="department">
+        <PropertyRef Name="depcatid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_employee_department">
+    <End Role="department" Type="Self.department" Multiplicity="1" />
+    <End Role="employee" Type="Self.employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="employee">
+        <PropertyRef Name="iddepart" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_employee_users">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="employee" Type="Self.employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="employee">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_follows_department">
+    <End Role="department" Type="Self.department" Multiplicity="0..1" />
+    <End Role="follows" Type="Self.follows" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="follows">
+        <PropertyRef Name="id_department" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_follows_rows">
+    <End Role="rows" Type="Self.rows" Multiplicity="0..1" />
+    <End Role="follows" Type="Self.follows" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rows">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="follows">
+        <PropertyRef Name="id_dispatch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_rows_cat">
+    <End Role="cat" Type="Self.cat" Multiplicity="0..1" />
+    <End Role="rows" Type="Self.rows" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cat">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="rows">
+        <PropertyRef Name="idcat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_rows_type">
+    <End Role="type" Type="Self.type" Multiplicity="0..1" />
+    <End Role="rows" Type="Self.rows" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="type">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="rows">
+        <PropertyRef Name="type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_users_groups_user">
+    <End Role="groups_user" Type="Self.groups_user" Multiplicity="0..1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="groups_user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="group_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CongVanModelStoreContainer">
+    <EntitySet Name="assignment" EntityType="Self.assignment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cat" EntityType="Self.cat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="department" EntityType="Self.department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="department_cat" EntityType="Self.department_cat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="follows" EntityType="Self.follows" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="groups_user" EntityType="Self.groups_user" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="rows" EntityType="Self.rows" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="type" EntityType="Self.type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_assignment_department" Association="Self.FK_assignment_department">
+      <End Role="department" EntitySet="department" />
+      <End Role="assignment" EntitySet="assignment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_assignment_rows" Association="Self.FK_assignment_rows">
+      <End Role="rows" EntitySet="rows" />
+      <End Role="assignment" EntitySet="assignment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_department_department_cat" Association="Self.FK_department_department_cat">
+      <End Role="department_cat" EntitySet="department_cat" />
+      <End Role="department" EntitySet="department" />
+    </AssociationSet>
+    <AssociationSet Name="FK_employee_department" Association="Self.FK_employee_department">
+      <End Role="department" EntitySet="department" />
+      <End Role="employee" EntitySet="employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_employee_users" Association="Self.FK_employee_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="employee" EntitySet="employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_follows_department" Association="Self.FK_follows_department">
+      <End Role="department" EntitySet="department" />
+      <End Role="follows" EntitySet="follows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_follows_rows" Association="Self.FK_follows_rows">
+      <End Role="rows" EntitySet="rows" />
+      <End Role="follows" EntitySet="follows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_rows_cat" Association="Self.FK_rows_cat">
+      <End Role="cat" EntitySet="cat" />
+      <End Role="rows" EntitySet="rows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_rows_type" Association="Self.FK_rows_type">
+      <End Role="type" EntitySet="type" />
+      <End Role="rows" EntitySet="rows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_users_groups_user" Association="Self.FK_users_groups_user">
+      <End Role="groups_user" EntitySet="groups_user" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

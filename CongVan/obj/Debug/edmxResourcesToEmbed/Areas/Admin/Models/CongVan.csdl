@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CongVanModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="assignment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="id_dispatch" Type="Int32" />
+    <Property Name="id_department" Type="Int32" />
+    <Property Name="assingtime" Type="DateTime" Precision="3" />
+    <Property Name="completiontime" Type="DateTime" Precision="3" />
+    <Property Name="userid_command" Type="Int32" />
+    <Property Name="userid_follow" Type="Int32" />
+    <Property Name="userid_perform" Type="Int32" />
+    <Property Name="work_content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="result" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="attach_file" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="department" Relationship="Self.FK_assignment_department" FromRole="assignment" ToRole="department" />
+    <NavigationProperty Name="row" Relationship="Self.FK_assignment_rows" FromRole="assignment" ToRole="rows" />
+  </EntityType>
+  <EntityType Name="cat">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="parentid" Type="Int32" />
+    <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="introduction" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="addtime" Type="DateTime" Precision="3" />
+    <Property Name="status" Type="Int32" />
+    <NavigationProperty Name="rows" Relationship="Self.FK_rows_cat" FromRole="cat" ToRole="rows" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="depcatid" Type="Int32" />
+    <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="weight" Type="Int32" />
+    <NavigationProperty Name="assignments" Relationship="Self.FK_assignment_department" FromRole="department" ToRole="assignment" />
+    <NavigationProperty Name="department_cat" Relationship="Self.FK_department_department_cat" FromRole="department" ToRole="department_cat" />
+    <NavigationProperty Name="employees" Relationship="Self.FK_employee_department" FromRole="department" ToRole="employee" />
+    <NavigationProperty Name="follows" Relationship="Self.FK_follows_department" FromRole="department" ToRole="follows" />
+  </EntityType>
+  <EntityType Name="department_cat">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="weight" Type="Int32" />
+    <NavigationProperty Name="departments" Relationship="Self.FK_department_department_cat" FromRole="department_cat" ToRole="department" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="userid" />
+      <PropertyRef Name="iddepart" />
+    </Key>
+    <Property Name="userid" Type="Int32" Nullable="false" />
+    <Property Name="iddepart" Type="Int32" Nullable="false" />
+    <Property Name="office" Type="Byte" />
+    <NavigationProperty Name="department" Relationship="Self.FK_employee_department" FromRole="employee" ToRole="department" />
+    <NavigationProperty Name="user" Relationship="Self.FK_employee_users" FromRole="employee" ToRole="users" />
+  </EntityType>
+  <EntityType Name="follow">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="id_dispatch" Type="Int32" />
+    <Property Name="id_department" Type="Int32" />
+    <Property Name="list_userid" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="list_timeview" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="list_hitstotal" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="department" Relationship="Self.FK_follows_department" FromRole="follows" ToRole="department" />
+    <NavigationProperty Name="row" Relationship="Self.FK_follows_rows" FromRole="follows" ToRole="rows" />
+  </EntityType>
+  <EntityType Name="groups_user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="group_type" Type="Int32" />
+    <Property Name="leader_id" Type="Int32" />
+    <NavigationProperty Name="users" Relationship="Self.FK_users_groups_user" FromRole="groups_user" ToRole="users" />
+  </EntityType>
+  <EntityType Name="row">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="type" Type="Int32" />
+    <Property Name="idcat" Type="Int32" />
+    <Property Name="idtype" Type="Int32" />
+    <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="abstract" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="name_signer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="name_initial" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="level_important" Type="Int32" />
+    <Property Name="number_dispatch" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="number_text_come" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="publtime" Type="DateTime" Precision="3" />
+    <Property Name="date_iss" Type="DateTime" Precision="0" />
+    <Property Name="date_first" Type="DateTime" Precision="0" />
+    <Property Name="date_die" Type="DateTime" Precision="0" />
+    <Property Name="from_org" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="to_org" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="dep_catid" Type="Int32" />
+    <Property Name="to_depid" Type="Int32" />
+    <Property Name="attach_file" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="Byte" />
+    <Property Name="term_view" Type="DateTime" Precision="3" />
+    <Property Name="reply" Type="Byte" />
+    <Property Name="groups_view" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="views" Type="Int32" />
+    <NavigationProperty Name="assignments" Relationship="Self.FK_assignment_rows" FromRole="rows" ToRole="assignment" />
+    <NavigationProperty Name="cat" Relationship="Self.FK_rows_cat" FromRole="rows" ToRole="cat" />
+    <NavigationProperty Name="follows" Relationship="Self.FK_follows_rows" FromRole="rows" ToRole="follows" />
+    <NavigationProperty Name="type1" Relationship="Self.FK_rows_type" FromRole="rows" ToRole="type" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="type">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="parentid" Type="Int32" />
+    <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="weight" Type="Int32" />
+    <Property Name="status" Type="Int32" />
+    <NavigationProperty Name="rows" Relationship="Self.FK_rows_type" FromRole="type" ToRole="rows" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="group_id" Type="Int32" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="first_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="last_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="gender" Type="Byte" />
+    <Property Name="photo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="birthday" Type="DateTime" Precision="0" />
+    <Property Name="active" Type="Byte" />
+    <NavigationProperty Name="employees" Relationship="Self.FK_employee_users" FromRole="users" ToRole="employee" />
+    <NavigationProperty Name="groups_user" Relationship="Self.FK_users_groups_user" FromRole="users" ToRole="groups_user" />
+  </EntityType>
+  <Association Name="FK_assignment_department">
+    <End Role="department" Type="Self.department" Multiplicity="0..1" />
+    <End Role="assignment" Type="Self.assignment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="assignment">
+        <PropertyRef Name="id_department" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_assignment_rows">
+    <End Role="rows" Type="Self.row" Multiplicity="0..1" />
+    <End Role="assignment" Type="Self.assignment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rows">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="assignment">
+        <PropertyRef Name="id_dispatch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_rows_cat">
+    <End Role="cat" Type="Self.cat" Multiplicity="0..1" />
+    <End Role="rows" Type="Self.row" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cat">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="rows">
+        <PropertyRef Name="idcat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_department_department_cat">
+    <End Role="department_cat" Type="Self.department_cat" Multiplicity="0..1" />
+    <End Role="department" Type="Self.department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department_cat">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="department">
+        <PropertyRef Name="depcatid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_employee_department">
+    <End Role="department" Type="Self.department" Multiplicity="1" />
+    <End Role="employee" Type="Self.employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="employee">
+        <PropertyRef Name="iddepart" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_follows_department">
+    <End Role="department" Type="Self.department" Multiplicity="0..1" />
+    <End Role="follows" Type="Self.follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="follows">
+        <PropertyRef Name="id_department" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_employee_users">
+    <End Role="users" Type="Self.user" Multiplicity="1" />
+    <End Role="employee" Type="Self.employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="employee">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_follows_rows">
+    <End Role="rows" Type="Self.row" Multiplicity="0..1" />
+    <End Role="follows" Type="Self.follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rows">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="follows">
+        <PropertyRef Name="id_dispatch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_users_groups_user">
+    <End Role="groups_user" Type="Self.groups_user" Multiplicity="0..1" />
+    <End Role="users" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="groups_user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="group_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_rows_type">
+    <End Role="type" Type="Self.type" Multiplicity="0..1" />
+    <End Role="rows" Type="Self.row" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="type">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="rows">
+        <PropertyRef Name="type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CongVanEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="assignments" EntityType="Self.assignment" />
+    <EntitySet Name="cats" EntityType="Self.cat" />
+    <EntitySet Name="departments" EntityType="Self.department" />
+    <EntitySet Name="department_cat" EntityType="Self.department_cat" />
+    <EntitySet Name="employees" EntityType="Self.employee" />
+    <EntitySet Name="follows" EntityType="Self.follow" />
+    <EntitySet Name="groups_user" EntityType="Self.groups_user" />
+    <EntitySet Name="rows" EntityType="Self.row" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="types" EntityType="Self.type" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK_assignment_department" Association="Self.FK_assignment_department">
+      <End Role="department" EntitySet="departments" />
+      <End Role="assignment" EntitySet="assignments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_assignment_rows" Association="Self.FK_assignment_rows">
+      <End Role="rows" EntitySet="rows" />
+      <End Role="assignment" EntitySet="assignments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_rows_cat" Association="Self.FK_rows_cat">
+      <End Role="cat" EntitySet="cats" />
+      <End Role="rows" EntitySet="rows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_department_department_cat" Association="Self.FK_department_department_cat">
+      <End Role="department_cat" EntitySet="department_cat" />
+      <End Role="department" EntitySet="departments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_employee_department" Association="Self.FK_employee_department">
+      <End Role="department" EntitySet="departments" />
+      <End Role="employee" EntitySet="employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_follows_department" Association="Self.FK_follows_department">
+      <End Role="department" EntitySet="departments" />
+      <End Role="follows" EntitySet="follows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_employee_users" Association="Self.FK_employee_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="employee" EntitySet="employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_follows_rows" Association="Self.FK_follows_rows">
+      <End Role="rows" EntitySet="rows" />
+      <End Role="follows" EntitySet="follows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_users_groups_user" Association="Self.FK_users_groups_user">
+      <End Role="groups_user" EntitySet="groups_user" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_rows_type" Association="Self.FK_rows_type">
+      <End Role="type" EntitySet="types" />
+      <End Role="rows" EntitySet="rows" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

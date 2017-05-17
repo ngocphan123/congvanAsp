@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Areas/Admin/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="~/Areas/Admin/Content/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Areas/Admin/Content/dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Morris Charts CSS -->
+    <link href="~/Areas/Admin/Content/vendor/morrisjs/morris.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="~/Areas/Admin/Content/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+    <div class="navbar navbar-fixed-top">
+        <!-- start: header -->
+        @Html.Action("LoadHeader", "Home")
+        <!-- end: header -->
+    </div>
+    <div id="wrapper">
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <!-- start: menu -->
+                @Html.Action("LoadMenu", "Home")
+                <!-- end: menu -->
+            </div>
+        </div>
+        <div id="page-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="~/Areas/Admin/Content/vendor/jquery/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Areas/Admin/Content/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="~/Areas/Admin/Content/vendor/metisMenu/metisMenu.min.js"></script>
+    <!-- Morris Charts JavaScript -->
+    <script src="~/Areas/Admin/Content/vendor/raphael/raphael.min.js"></script>
+    <script src="~/Areas/Admin/Content/vendor/morrisjs/morris.min.js"></script>
+    <script src="~/Areas/Admin/Content/data/morris-data.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Areas/Admin/Content/dist/js/sb-admin-2.js"></script>
+</body>
+</html>

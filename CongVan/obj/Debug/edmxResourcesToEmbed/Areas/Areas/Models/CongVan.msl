@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CongVanModelStoreContainer" CdmEntityContainer="CongVanEntities">
+    <EntitySetMapping Name="assignments">
+      <EntityTypeMapping TypeName="CongVanModel.assignment">
+        <MappingFragment StoreEntitySet="assignment">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_dispatch" ColumnName="id_dispatch" />
+          <ScalarProperty Name="id_department" ColumnName="id_department" />
+          <ScalarProperty Name="assingtime" ColumnName="assingtime" />
+          <ScalarProperty Name="completiontime" ColumnName="completiontime" />
+          <ScalarProperty Name="userid_command" ColumnName="userid_command" />
+          <ScalarProperty Name="userid_follow" ColumnName="userid_follow" />
+          <ScalarProperty Name="userid_perform" ColumnName="userid_perform" />
+          <ScalarProperty Name="work_content" ColumnName="work_content" />
+          <ScalarProperty Name="result" ColumnName="result" />
+          <ScalarProperty Name="attach_file" ColumnName="attach_file" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cats">
+      <EntityTypeMapping TypeName="CongVanModel.cat">
+        <MappingFragment StoreEntitySet="cat">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="parentid" ColumnName="parentid" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="introduction" ColumnName="introduction" />
+          <ScalarProperty Name="addtime" ColumnName="addtime" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="departments">
+      <EntityTypeMapping TypeName="CongVanModel.department">
+        <MappingFragment StoreEntitySet="department">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="depcatid" ColumnName="depcatid" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="weight" ColumnName="weight" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="department_cat">
+      <EntityTypeMapping TypeName="CongVanModel.department_cat">
+        <MappingFragment StoreEntitySet="department_cat">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="weight" ColumnName="weight" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="employees">
+      <EntityTypeMapping TypeName="CongVanModel.employee">
+        <MappingFragment StoreEntitySet="employee">
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="iddepart" ColumnName="iddepart" />
+          <ScalarProperty Name="office" ColumnName="office" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="follows">
+      <EntityTypeMapping TypeName="CongVanModel.follow">
+        <MappingFragment StoreEntitySet="follows">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_dispatch" ColumnName="id_dispatch" />
+          <ScalarProperty Name="id_department" ColumnName="id_department" />
+          <ScalarProperty Name="list_userid" ColumnName="list_userid" />
+          <ScalarProperty Name="list_timeview" ColumnName="list_timeview" />
+          <ScalarProperty Name="list_hitstotal" ColumnName="list_hitstotal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="groups_user">
+      <EntityTypeMapping TypeName="CongVanModel.groups_user">
+        <MappingFragment StoreEntitySet="groups_user">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="group_type" ColumnName="group_type" />
+          <ScalarProperty Name="leader_id" ColumnName="leader_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="rows">
+      <EntityTypeMapping TypeName="CongVanModel.row">
+        <MappingFragment StoreEntitySet="rows">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="idcat" ColumnName="idcat" />
+          <ScalarProperty Name="idtype" ColumnName="idtype" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="abstract" ColumnName="abstract" />
+          <ScalarProperty Name="name_signer" ColumnName="name_signer" />
+          <ScalarProperty Name="name_initial" ColumnName="name_initial" />
+          <ScalarProperty Name="level_important" ColumnName="level_important" />
+          <ScalarProperty Name="number_dispatch" ColumnName="number_dispatch" />
+          <ScalarProperty Name="number_text_come" ColumnName="number_text_come" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="publtime" ColumnName="publtime" />
+          <ScalarProperty Name="date_iss" ColumnName="date_iss" />
+          <ScalarProperty Name="date_first" ColumnName="date_first" />
+          <ScalarProperty Name="date_die" ColumnName="date_die" />
+          <ScalarProperty Name="from_org" ColumnName="from_org" />
+          <ScalarProperty Name="to_org" ColumnName="to_org" />
+          <ScalarProperty Name="dep_catid" ColumnName="dep_catid" />
+          <ScalarProperty Name="to_depid" ColumnName="to_depid" />
+          <ScalarProperty Name="attach_file" ColumnName="attach_file" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="term_view" ColumnName="term_view" />
+          <ScalarProperty Name="reply" ColumnName="reply" />
+          <ScalarProperty Name="groups_view" ColumnName="groups_view" />
+          <ScalarProperty Name="views" ColumnName="views" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="CongVanModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="types">
+      <EntityTypeMapping TypeName="CongVanModel.type">
+        <MappingFragment StoreEntitySet="type">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="parentid" ColumnName="parentid" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="weight" ColumnName="weight" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="CongVanModel.user">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="group_id" ColumnName="group_id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="first_name" ColumnName="first_name" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="photo" ColumnName="photo" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="active" ColumnName="active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
