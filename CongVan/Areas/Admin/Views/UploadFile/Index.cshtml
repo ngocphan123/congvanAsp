@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>upload file to server</h2>
+@using (Html.BeginForm("Upload", "UploadFile", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "MyForm" }))
+{
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                Please select File
+            </td>
+            <td>
+                <input type="file" name="file" value="" id="myFile" />
+            </td>
+            <td><input type="submit" name="file" value="Upload" /></td>
+        </tr>
+    </table>
+}
+<button id="btnUploadFilengoc">View Document</button>
+<div id="DOC1"></div>
+<script>
+    $("#btnUploadFilengoc").click(function () {
+        alert("Handler for .click() called.");
+    });
+   /* $(document).ready(function () {       
+        $("#btnUpload").click(function () {           
+    if($("#myFile").val()=="")
+    {
+        alert("Please select a file");
+        return false;
+    }
+    $('#MyForm').ajaxForm({
+        complete: function (xhr) {
+            alert('button');
+        var ret = $.parseJSON(xhr.responseText);
+            if (ret.Error == false) {
+            $("#DOC1").empty();
+            $("#DOC1").html('<iframe src="@Url.Action("ShowDocument", "UploadFile", new { FilePath = "_FilePath" }) "'.replace("_FilePath", ret.FilePath) +  ' style="width: 98%; height: 98%" ></iframe>');
+            // $("#DOC1").show();
+           /* $("#DOC1").dialog({
+            autoOpen: true,
+            modal: true,
+            height:500,
+            width:600,
+            buttons: {
+                OK: function () { $(this).dialog("close"); }
+                },
+            title: "Document",
+            });
+        }
+    },
+    error: function () {
+    window.location.reload();
+    }
+}).submit();
+});
+});*/
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">

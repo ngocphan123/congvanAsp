@@ -53,3 +53,6 @@ D:\hoctap\webasp\CongVan\CongVan\bin\Microsoft.Owin.Security.MicrosoftAccount.xm
 D:\hoctap\webasp\CongVan\CongVan\obj\Debug\CongVan.csprojResolveAssemblyReference.cache
 D:\hoctap\webasp\CongVan\CongVan\obj\Debug\CongVan.dll
 D:\hoctap\webasp\CongVan\CongVan\obj\Debug\CongVan.pdb
+D:\hoctap\webasp\CongVan\CongVan\bin\itextsharp.dll
+D:\hoctap\webasp\CongVan\CongVan\bin\Aspose.Pdf.dll
+D:\hoctap\webasp\CongVan\CongVan\bin\Aspose.Pdf.xml

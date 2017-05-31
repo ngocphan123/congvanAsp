@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2> File Upload</h2>
+<ul>
+    <li>@Html.ActionLink("Viw Temp PDF Method1", "DisplayPDF")</li>
+    <li>@Html.ActionLink("Download Temp PDF", "PDFDownload")</li>
+    <li>@Html.ActionLink("Viw Temp PDF Method2", "PDFDisplay")</li>
+    <li>@Ajax.ActionLink("Viw Temp PDF Method3", "PDFPartialView", new AjaxOptions { UpdateTargetId = "pdfContainer" })</li>
+    <li>@Html.ActionLink("Convert PDF to Text", "ConvertPDFtoText")</li>
+</ul>
+<div id="pdfContainer">
+
+</div>
+<p>@ViewBag.Path</p>
