@@ -10,7 +10,7 @@ namespace CongVan.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         // GET: Areas/Home
-        CongVanEntities db = new CongVanEntities();
+        NLP db = new NLP();
         public ActionResult Index()
         {
             Session["current_url"] = Request.Url.AbsoluteUri;

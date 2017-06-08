@@ -1,0 +1,213 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<h2>Thêm công văn</h2>
+<div id="contentmod">
+    <form action="/admin/index.php?language=vi&amp;nv=dispatch&amp;op=add_document" method="post">
+        <table class="table table-striped table-bordered table-hover">
+            <tbody>
+                <tr>
+                    <td>Chọn loại công văn đi hoặc đến</td>
+                    <td>
+                        <select class="form-control w200 dis_type" name="type">
+                            <option value="0" selected="selected">Loại công văn</option>
+                            <option value="1">Công văn đến</option>
+                            <option value="2">Công văn đi</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="200px">Tên công văn (<span class="red">*</span>)</strong></td>
+                    <td><input class="form-control w400" value="" name="title" id="title" maxlength="100" /><input type="hidden" name="id" value="0"></td>
+                </tr>
+
+                <tr>
+                    <td>Thuộc chủ đề </td>
+                    <td>
+                        <select class="form-control w200" name="parentid">                            
+                            <option value="1">Giáo dục Đào tạo</option>
+
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Loại công văn</td>
+                    <td>
+                        <select class="form-control w200" name="typeid">
+                            <option value="1">Bản cam kết &#40;CK&#41;</option>
+                            <option value="2">Báo cáo &#40;BC&#41;</option>
+                            <option value="3">Biên bản &#40;BB&#41;</option>
+                            <option value="4">Chỉ thị &#40;CT&#41;</option>
+                            <option value="5">Công điện &#40;CĐ&#41;</option>
+                            <option value="6">Công văn</option>
+                            <option value="7">Thông báo</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Ngày gửi(<span class="red">*</span>)</strong></td>
+                    <td><input class="form-control w200 pull-left" value="" type="text" id="publtime" name="publtime" readonly="readonly" /></td>
+                </tr>
+
+                <tr>
+                    <td>Số công văn(<span class="red">*</span>)</strong></td>
+                    <td><input class="form-control w400" value="" name="code" id="code" maxlength="100" /></td>
+                </tr>
+
+                <tr>
+                    <td>Số văn bản đến</td>
+                    <td><input class="form-control w400" value="" name="number_text_come" id="number_text_come" maxlength="100" /></td>
+                </tr>
+
+                <tr>
+                    <td>Đơn vị soạn(<span class="red">*</span>)</strong></td>
+                    <td><input class="form-control w400" value="" name="from_org" id="from_org" maxlength="100" /></td>
+                </tr>
+                <tr>
+                    <td> Đơn vị nhận</td>
+                    <td><textarea class="form-control w400" name="to_org"></textarea><span class="help-block"> Các tổ chức cơ quan cách nhau bởi dấu <span style="color: #f00;">","</span></span></td>
+                </tr>
+                <tr class="listdecat" class="listdecat">
+                    <td>Loại phòng gửi</td>
+                    <td>
+                        <select class="form-control w200 selectpicker to_depcatid " name="to_depcatid[]" multiple>
+                            <option value="1">Phòng ban</option>
+                            <option value="2">Khoa</option>
+                            <option value="3">Bộ phận</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="listdecat" class="listdecat">
+                    <td>Tên phòng gửi</td>
+                    <td>
+                        <div style="padding: 4px; height: 150px; width: 400px; background: none repeat scroll 0% 0% rgb(255, 255, 255); overflow: auto; text-align: left; border: 1px solid rgb(204, 204, 204);">
+                            <div id="listdepid_0">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" value="yes" onclick="nv_checkAll(this.form, 'idcheck[]', 'check_all[]',this.checked);" />Chọn/bỏ chọn tất cả
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input name="deid[2]" value="2" type="checkbox" id="idcheck[]" /> Khoa CNTĐ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input name="deid[1]" value="1" type="checkbox" id="idcheck[]" /> Khoa CNTT
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input name="deid[3]" value="3" type="checkbox" id="idcheck[]" /> Phòng CTHSSV
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="listdepid_1">
+                                &nbsp;
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Người ký văn bản(<span class="red">*</span>)</strong></td>
+                    <td>
+                        <input class="form-control w400" value="" name="name_signer" id="name_signer" maxlength="100" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Người ký nháy</td>
+                    <td>
+                        <input class="form-control w400" value="" name="name_initial" id="name_initial" maxlength="100" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Ngày ban hành(<span class="red">*</span>)</strong></td>
+                    <td><input class="form-control w200 pull-left" value="" type="text" id="date_iss" name="date_iss" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td>Ngày có hiệu lực(<span class="red">*</span>)</strong></td>
+                    <td><input class="form-control w200 pull-left" value="" type="text" id="date_first" name="date_first" readonly="readonly" /></td>
+                </tr>
+
+                <tr>
+                    <td>Ngày hết hiệu lực</td>
+                    <td><input class="form-control w200 pull-left" value="" type="text" id="date_die" name="date_die" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input class="form-control w200 pull-left" value="" type="text" id="term_view" name="term_view" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td>Trích yếu công văn</td>
+                    <td><textarea class="form-control" rows="8" name="content"></textarea></td>
+                </tr>
+
+                <tr>
+                    <td>Ghi chú</td>
+                    <td><textarea class="form-control" rows="8" name="note"></textarea></td>
+                </tr>
+
+                <tr>
+                    <td>Công văn đính kèm</td>
+                    <td>
+                        <div id="fileupload_items">
+                            <label>
+                                <input class="form-control w400 pull-left" style="margin-right: 5px" type="text" value="" name="fileupload[]" id="fileupload" style="width: 300px" maxlength="255" />
+                                <input class="btn btn-primary pull-left" style="margin-right: 5px" type="button" id="button" value="Chọn file" name="selectfile" onclick="nv_open_browse( '/admin/index.php?nv=upload&popup=1&area=fileupload&path=uploads/dispatch&type=file', 'NVImg', 850, 500, 'resizable=no,scrollbars=no,toolbar=no,location=no,status=no' );return false;" />
+                            </label>
+                        </div>
+                        <input class="btn btn-success" type="button" value="Thêm file" onclick="nv_file_additem();" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mức độ quan trọng</td>
+                    <td>
+                        <select class="form-control w200" name="level_important">
+                            <option value="0" selected="selected">Mức độ quan trọng</option>
+                            <option value="1">Công khai</option>
+                            <option value="2">Bình thường</option>
+                            <option value="3">Mật</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Phúc đáp</td>
+                    <td>
+                        <select class="form-control w200" name="reply">
+                            <option value="0" selected="selected">Phúc đáp</option>
+                            <option value="1">Có</option>
+                            <option value="2">Không</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Trạng thái</td>
+                    <td>
+                        <select class="form-control w200" name="statusid">
+                            <option value="0" selected="selected">Chưa xử lý</option>
+                            <option value="1">Đã xử lý</option>
+                            <option value="2">Để lưu</option>
+                            <option value="3">Chưa gửi</option>
+                            <option value="4">Đã gửi</option>
+                            <option value="5">Đang xử lý</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input class="btn btn-primary" type="submit" name="submit" value="Lưu lại" />
+                        <input class="btn btn-primary" type="submit" name="send" value="Gửi đi" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+

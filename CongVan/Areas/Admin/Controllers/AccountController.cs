@@ -10,7 +10,7 @@ namespace CongVan.Areas.Admin.Controllers
     public class AccountController : Controller
     {
         // GET: Areas/Account
-        CongVanEntities db = new CongVanEntities();
+        NLP db = new NLP();
         public ActionResult Index()
         {
             return View();

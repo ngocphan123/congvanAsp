@@ -171,56 +171,21 @@
     <Compile Include="Areas\Admin\AreasAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Comman\Helper.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CongVanController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\UploadFileController.cs" />
-    <Compile Include="Areas\Admin\Models\assignment.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\cat.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\CongVan.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CongVan.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\CongVan.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\CongVan.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CongVan.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\department.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\department_cat.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\employee.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\follow.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\groups_user.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\row.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\sysdiagram.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\type.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Admin\Models\user.cs">
-      <DependentUpon>CongVan.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Areas\Admin\Models\assignment.cs" />
+    <Compile Include="Areas\Admin\Models\cat.cs" />
+    <Compile Include="Areas\Admin\Models\department.cs" />
+    <Compile Include="Areas\Admin\Models\department_cat.cs" />
+    <Compile Include="Areas\Admin\Models\employee.cs" />
+    <Compile Include="Areas\Admin\Models\follow.cs" />
+    <Compile Include="Areas\Admin\Models\groups_user.cs" />
+    <Compile Include="Areas\Admin\Models\NLP.cs" />
+    <Compile Include="Areas\Admin\Models\row.cs" />
+    <Compile Include="Areas\Admin\Models\sysdiagram.cs" />
+    <Compile Include="Areas\Admin\Models\type.cs" />
+    <Compile Include="Areas\Admin\Models\user.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -341,23 +306,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <EntityDeploy Include="Areas\Admin\Models\CongVan.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CongVan.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Areas\Admin\Models\CongVan.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CongVan.edmx</DependentUpon>
-      <LastGenOutput>CongVan.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Admin\Models\CongVan.edmx.diagram">
-      <DependentUpon>CongVan.edmx</DependentUpon>
-    </Content>
-    <Content Include="Areas\Admin\Models\CongVan.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CongVan.edmx</DependentUpon>
-      <LastGenOutput>CongVan.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
@@ -417,6 +365,7 @@
     <Content Include="Areas\Admin\Views\UploadFile\PDFPartialView.cshtml" />
     <Content Include="Areas\Admin\Views\UploadFile\PDFDisplay.cshtml" />
     <Content Include="Areas\Admin\Views\UploadFile\ConvertPDFtoText.cshtml" />
+    <Content Include="Areas\Admin\Views\CongVan\index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
