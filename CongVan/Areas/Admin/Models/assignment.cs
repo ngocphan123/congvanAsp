@@ -9,7 +9,6 @@ namespace CongVan.Areas.Admin.Models
     [Table("assignment")]
     public partial class assignment
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
         public int? id_dispatch { get; set; }

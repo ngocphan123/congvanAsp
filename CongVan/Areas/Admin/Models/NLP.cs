@@ -8,7 +8,7 @@ namespace CongVan.Areas.Admin.Models
     public partial class NLP : DbContext
     {
         public NLP()
-            : base("name=NLP")
+            : base("name=NLP1")
         {
         }
 
@@ -20,7 +20,6 @@ namespace CongVan.Areas.Admin.Models
         public virtual DbSet<follow> follows { get; set; }
         public virtual DbSet<groups_user> groups_user { get; set; }
         public virtual DbSet<row> rows { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<type> types { get; set; }
         public virtual DbSet<user> users { get; set; }
 
@@ -94,7 +93,7 @@ namespace CongVan.Areas.Admin.Models
             modelBuilder.Entity<type>()
                 .HasMany(e => e.rows)
                 .WithOptional(e => e.type1)
-                .HasForeignKey(e => e.type);
+                .HasForeignKey(e => e.idtype);
 
             modelBuilder.Entity<user>()
                 .HasMany(e => e.employees)

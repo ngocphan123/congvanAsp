@@ -15,7 +15,6 @@ namespace CongVan.Areas.Admin.Models
             rows = new HashSet<row>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
         public int? parentid { get; set; }

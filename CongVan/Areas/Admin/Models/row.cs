@@ -15,7 +15,6 @@ namespace CongVan.Areas.Admin.Models
             follows = new HashSet<follow>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
         public int? type { get; set; }
@@ -27,7 +26,7 @@ namespace CongVan.Areas.Admin.Models
         [StringLength(255)]
         public string title { get; set; }
 
-        [Column("abstract", TypeName = "text")]
+        [Column("abstract", TypeName = "ntext")]
         public string _abstract { get; set; }
 
         [StringLength(255)]
@@ -44,7 +43,7 @@ namespace CongVan.Areas.Admin.Models
         [StringLength(255)]
         public string number_text_come { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         public string note { get; set; }
 
         public DateTime? publtime { get; set; }

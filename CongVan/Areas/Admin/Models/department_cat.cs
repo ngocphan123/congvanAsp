@@ -14,7 +14,6 @@ namespace CongVan.Areas.Admin.Models
             departments = new HashSet<department>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
         [StringLength(250)]

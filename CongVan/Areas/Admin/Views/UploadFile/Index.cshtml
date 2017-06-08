@@ -1,61 +1,32 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
-<h2>upload file to server</h2>
-@using (Html.BeginForm("Upload", "UploadFile", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "MyForm" }))
-{
-    <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-            <td>
-                Please select File
-            </td>
-            <td>
-                <input type="file" name="file" value="" id="myFile" />
-            </td>
-            <td><input type="submit" name="file" value="Upload" /></td>
-        </tr>
-    </table>
-}
-<button id="btnUploadFilengoc">View Document</button>
-<div id="DOC1"></div>
+<script src="~/Areas/Admin/Content/vendor/jquery/jquery.min.js"></script>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker-vi.js"></script>
+<div class="body-content" >
+    <h2>Upload file công văn</h2>
+    @using (Html.BeginForm("Upload", "UploadFile", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "MyForm" }))
+    {
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    Chọn file
+                </td>
+                <td>
+                    <input type="file" name="file" value="" id="myFile" />
+                </td>
+                <td><input type="submit" name="file" value="Upload" /></td>
+            </tr>
+        </table>
+    }
+</div>
 <script>
     $("#btnUploadFilengoc").click(function () {
         alert("Handler for .click() called.");
-    });
-   /* $(document).ready(function () {       
-        $("#btnUpload").click(function () {           
-    if($("#myFile").val()=="")
-    {
-        alert("Please select a file");
-        return false;
-    }
-    $('#MyForm').ajaxForm({
-        complete: function (xhr) {
-            alert('button');
-        var ret = $.parseJSON(xhr.responseText);
-            if (ret.Error == false) {
-            $("#DOC1").empty();
-            $("#DOC1").html('<iframe src="@Url.Action("ShowDocument", "UploadFile", new { FilePath = "_FilePath" }) "'.replace("_FilePath", ret.FilePath) +  ' style="width: 98%; height: 98%" ></iframe>');
-            // $("#DOC1").show();
-           /* $("#DOC1").dialog({
-            autoOpen: true,
-            modal: true,
-            height:500,
-            width:600,
-            buttons: {
-                OK: function () { $(this).dialog("close"); }
-                },
-            title: "Document",
-            });
-        }
-    },
-    error: function () {
-    window.location.reload();
-    }
-}).submit();
-});
-});*/
+    });  
 </script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">

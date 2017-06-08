@@ -14,276 +14,444 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
 using Color = System.Drawing.Color;
+using AForge.Imaging;
+using RasterEdge.XImage.OCR;
+using Tesseract;
+using System.Web.Mvc.Html;
+using CongVan.Areas.Admin.Models;
 
 namespace CongVan.Areas.Admin.Controllers
 {
     public class UploadFileController : Controller
     {
+        NLP db = new NLP();
+        String rootPath = "D:\\hoctap\\webasp\\CongVanT\\congvanAsp\\CongVan\\Areas\\Admin\\Files\\Tmp\\";
         // GET: Admin/UploadFile
         public ActionResult Index()
         {
+            if (Session["Ad_TenDangNhap"] == null)
+                return RedirectToAction("Login", "Account", null);
             return View();
         }
+        public static string GetText(Bitmap imgsource)
+        {
+            var ocrtext = string.Empty;
+            var engine = new TesseractEngine("D:\\hoctap\\webasp\\CongVanT\\congvanAsp\\CongVan\\tessdata", "vie", EngineMode.Default);
+            var img = PixConverter.ToPix(imgsource);
+            var page = engine.Process(img);
+            ocrtext = page.GetText();
 
+            return ocrtext;
+        }
+        public void WriteText(Bitmap imgsource)
+        {
+            String outputFilePath = rootPath + "Output.txt";
+            string text = GetText(imgsource);
+            StreamWriter wr = new StreamWriter(outputFilePath);
+            wr.Flush();
+            wr.Write(text);
+            wr.Close();
+        }
+        public Dictionary<string, int> CropImgae(BitmapData cloneBitmapCopyCSource, Bitmap btSource, UnmanagedImage sourceimageSource, int h0, String nameFile)
+        {
+
+            BitmapData cloneBitmapCopyC = cloneBitmapCopyCSource;
+            Bitmap bt = btSource;
+            UnmanagedImage sourceimage = sourceimageSource;
+
+            Color c;
+            //Tìm x trái nhất
+            int k, xt1, yt1, xt2, yt2, space, h, d, heighd, xt1min, xt2max, dong, tmp1, tmp2, tmp, hd, kc, weight, heightpage;
+            tmp1 = tmp2 = k = h = dong = xt1min = xt2max = heighd = d = space = xt1 = yt1 = xt2 = yt2 = tmp = kc = weight = heightpage = 0;
+            if (nameFile.Contains("NoiNhanCV")) weight = sourceimage.Width;
+            else weight = (int)(0.9 * sourceimage.Width / 2);
+            heightpage = sourceimage.Height;
+            for (hd = h0; hd <= h0 + 20; hd++)
+            {
+                for (k = 0; k < weight; k++)
+                {
+                    c = sourceimage.GetPixel(k, hd);
+                    if (c.R == 0)
+                    {
+                        xt1 = k;
+                        break;
+                    }
+                }
+                if (tmp == 0 || tmp > xt1)
+                {
+                    tmp = xt1;
+                    yt1 = hd;
+                }
+
+            }
+
+            xt1 = tmp;
+            tmp = 0;
+            d = yt1;
+            for (k = xt1; k < weight; k++)
+            {
+                for (h = d; h < (h0 + 59); h++)
+                {
+                    if (space > 2000)
+                    {
+                        break;
+                    }
+
+                    c = sourceimage.GetPixel(k, h);
+                    if (c.R == 0)
+                    {
+                        xt2 = k;
+                        yt2 = h;
+                        if (tmp == 0 || tmp < yt2)
+                        {
+                            tmp = yt2;
+                        }
+
+                        space = 0;
+                    }
+                    else if (c.R == 255)
+                    {
+                        space += 1;
+                    }
+                }
+
+            }
+            yt2 = tmp;
+            int height = 0;
+            tmp = 0;
+            if (nameFile.Contains("donviSoanCV")|| nameFile.Contains("TieuDeCV"))
+            {
+
+                if (nameFile.Contains("donviSoanCV"))
+                {
+                    heighd = height = yt2 + (int)(0.12 * yt2);
+                    kc = yt2;
+                }
+                else if (nameFile.Contains("TieuDeCV"))
+                {
+                    heighd = height = (yt2 - yt1) + (int)(0.2 * (yt2 - yt1));
+                    if (h0 > 250)
+                        kc = yt2 - yt1 + (int)(0.5 * (yt2 - yt1));
+                    else
+                        kc = yt2 - yt1;
+                    yt1 = yt1 - (int)(0.3 * (yt2 - yt1));
+                    xt1 = 0;
+                }
+
+                dong = 1;
+                do
+                {
+
+                    for (hd = height; hd <= (height + dong * ((int)(0.65 * yt2))); hd++)
+                    {
+                        h = 0;
+                        d = 0;
+                        for (k = 0; k < weight; k++)
+                        {
+                            c = sourceimage.GetPixel(k, hd);
+                            if (c.R == 0)
+                            {
+                                if (h == 0)
+                                {
+                                    xt1min = k;
+                                    if (tmp == 0 || tmp > xt1min)
+                                    {
+                                        tmp = xt1min;
+                                    }
+                                    h++;
+                                }
+                                else
+                                {
+                                    xt2max = k;
+                                }
+
+                                d++;
+                            }
+                        }
+                    }
+                    xt1min = tmp;
+                    if (dong == 1)
+                    {
+                        tmp1 = xt1;
+                        tmp2 = xt2;
+                    }
+                    if (d > 0)
+                    {
+                        if (tmp1 > xt1min) tmp1 = xt1min;
+                        if (tmp2 < xt2max) tmp2 = xt2max;
+                        dong++;
+                    }
+                } while (d > 0);
+
+                if (dong > 1)
+                {
+                    if (tmp1 < xt1) xt1 = tmp1;
+                    if (tmp2 > xt2) xt2 = tmp2;
+                    height = height + dong * kc + (int)(0.2 * kc);
+                }
+            }
+            else
+            {
+                heighd = height = (yt2 - yt1) + (int)(0.2 * (yt2 - yt1));
+                yt1 = yt1 - (int)(0.5 * (yt2 - yt1));
+            }
+
+            if (nameFile.Contains("donviSoanCV"))
+                cloneBitmapCopyC = bt.LockBits(new System.Drawing.Rectangle(xt1, 0, xt2 - xt1, height), System.Drawing.Imaging.ImageLockMode.ReadWrite, bt.PixelFormat);
+            else
+                cloneBitmapCopyC = bt.LockBits(new System.Drawing.Rectangle(xt1, yt1, xt2 - xt1, height), System.Drawing.Imaging.ImageLockMode.ReadWrite, bt.PixelFormat);
+
+            UnmanagedImage titileImage = new UnmanagedImage(cloneBitmapCopyC);
+            Bitmap imgTitile = titileImage.ToManagedImage();
+            String filePath = rootPath + nameFile + ".bmp";
+            if (!System.IO.File.Exists(filePath))
+            {
+                FileStream output_title = new FileStream((rootPath + nameFile + ".bmp"), FileMode.Create);
+                imgTitile.Save(output_title, System.Drawing.Imaging.ImageFormat.Jpeg);
+                output_title.Dispose();
+                output_title.Close();
+            }         
+            bt.UnlockBits(cloneBitmapCopyC);
+            Dictionary<string, int> dictionaryheight = new Dictionary<string, int>();
+            dictionaryheight.Add("height", height);
+            dictionaryheight.Add("heighd", heighd);
+            return dictionaryheight;
+
+        }
         public ActionResult Upload(HttpPostedFileBase file)
         {
             string path = Server.MapPath("~/Areas/Admin/Files/" + file.FileName);
             string ext = System.IO.Path.GetExtension(file.FileName);
+            string[] nameFielCV = file.FileName.Split('.');
             if (String.Compare(ext.ToLower(), "pdf") == 0)
             {
-                 @ViewBag.Path = "Bạn chỉ có thể tải lên file PDF";
+                @ViewBag.Path = "Bạn chỉ có thể tải lên file PDF";
             }
-            else {
+            else
+            {
                 file.SaveAs(path);
-                 @ViewBag.Path = path;
+                @ViewBag.Path = path;
                 //@ViewBag.Path = "Test"+ExtractTextFromPdf(path);
-                 Document pdfDoc = new Document(path);
+                Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(path);
 
                 int pageNum = pdfDoc.Pages.Count;
-               // Response.Write("Hello--" + pageNum);
+                // Response.Write("Hello--" + pageNum);
                 XImage[] image = new XImage[pageNum];
-               // int x = 0;
-                //int y = 0;
+
+                String NoiSoanCV, SoCV, TieuDeCV, NoiDungCV, NoiNhanCV, ChuKyCV, filePath;
+                NoiSoanCV = SoCV = TieuDeCV = NoiDungCV = NoiNhanCV = ChuKyCV = filePath  = "";
+                Color c;
                 for (int i = 1; i <= pageNum; i++)
                 {
-                    
-                    using (FileStream imageStream = new FileStream(@"D:\hoctap\webasp\CongVan\CongVan\Areas\Admin\Files\Tmp\abc" + i + ".bmp", FileMode.Create))
+                    Bitmap bt;
+                    UnmanagedImage sourceimage;
+                    BitmapData cloneBitmapCopyC;                   
+                    filePath = rootPath + file.FileName + nameFielCV[0] + i + ".bmp";
+                    if (!System.IO.File.Exists(filePath))
                     {
-                        // Create Resolution object
-                        Resolution resolution = new Resolution(300);
-                        // Create JPEG device with specified attributes (Width, Height, Resolution, Quality)
-                        // where Quality [0-100], 100 is Maximum
-                        JpegDevice jpegDevice = new JpegDevice(resolution, 100);
-
-                        // Convert a particular page and save the image to stream
-                        jpegDevice.Process(pdfDoc.Pages[i], imageStream);
-                        // Close stream
-                        imageStream.Close();
-                    }
-
-                    
-                    // Thao tác với bt
-                    Bitmap bt = (Bitmap)Bitmap.FromFile(@"D:\hoctap\webasp\CongVan\CongVan\Areas\Admin\Files\Tmp\abc" + i + ".bmp");
-                    bt.SetResolution(1000, 1000);                  
-                    Color c;
-                    for (int m = 0; m < bt.Width; m++)
-                        for (int j = 0; j < bt.Height; j++)
+                        using (FileStream imageStream = new FileStream(rootPath + nameFielCV[0] + i + ".bmp", FileMode.Create))
                         {
-                            c = bt.GetPixel(m, j);
-                            //c.R = 0; // màu đen
-                            int grayScale = (int)((c.R * 0.3) + (c.G * 0.59) + (c.B * 0.11));
-                            Color newColor = Color.FromArgb(c.A, grayScale, grayScale, grayScale);
-                            bt.SetPixel(m, j, newColor); //
-                        }                   
-                    FileStream output_gray = new FileStream(@"D:\hoctap\webasp\CongVan\CongVan\Areas\Admin\Files\Tmp\output_grayT" + i + ".bmp", FileMode.Create);
-                    bt.Save(output_gray, ImageFormat.Jpeg);
-                    output_gray.Dispose();
-                    output_gray.Close();
-                    
-                    //Nhi Phan (Đen thành đen , Trắng Thành Trắng)
-                    for (int m = 0; m < bt.Width; m++)
-                        for (int j = 0; j < bt.Height; j++)
-                        {
-                            c = bt.GetPixel(m, j);
-                            //c.R = 0; // màu đen                            
-                            if (c.R < 140) bt.SetPixel(m, j, Color.Black);
-                            else bt.SetPixel(m, j, Color.White);
+                            // Create Resolution object
+                            Resolution resolution = new Resolution(300);
+                            // Create JPEG device with specified attributes (Width, Height, Resolution, Quality)
+                            // where Quality [0-100], 100 is Maximum
+                            JpegDevice jpegDevice = new JpegDevice(resolution, 100);
+
+                            // Convert a particular page and save the image to stream
+                            jpegDevice.Process(pdfDoc.Pages[i], imageStream);
+                            // Close stream
+                            imageStream.Close();
                         }
-                    
-                    FileStream output_nhi = new FileStream(@"D:\hoctap\webasp\CongVan\CongVan\Areas\Admin\Files\Tmp\output_nhiT" + i + ".bmp", FileMode.Create);
-                    bt.Save(output_nhi, ImageFormat.Jpeg);
-                    output_nhi.Dispose();
-                    output_nhi.Close();                    
-                    System.Drawing.Rectangle cloneRectCopy = new System.Drawing.Rectangle(0, 114, bt.Width, bt.Height - 114);
-                    Bitmap cloneBitmapCopy = bt.Clone(cloneRectCopy, PixelFormat.Format32bppArgb);
-                    bt = cloneBitmapCopy;
-                    bt = Crop(bt);
-                    FileStream output_drop = new FileStream(@"D:\hoctap\webasp\CongVan\CongVan\Areas\Admin\Files\Tmp\output_dropTest" + i + ".bmp", FileMode.Create);
-                    bt.Save(output_drop, ImageFormat.Jpeg);
-                    output_drop.Dispose();
-                    output_drop.Close();   
-                    // Cắt khoảng trắng
+                        // Thao tác với bt
+                        bt = (Bitmap)Bitmap.FromFile((rootPath + nameFielCV[0] + i + ".bmp"));
+                        bt.SetResolution(192f, 192f);
+                        cloneBitmapCopyC = bt.LockBits(new System.Drawing.Rectangle(0, 114, bt.Width, bt.Height - 114), System.Drawing.Imaging.ImageLockMode.ReadWrite, bt.PixelFormat);
+                        sourceimage = new UnmanagedImage(cloneBitmapCopyC);
 
-                    /*int x1, x2, y1, y2, k, test;
-                     x1 = x2 = y1 = y2 = k = 0;
-                     for (int j = 0; j < bt.Height; j++)
-                     {
-                         if (i == 1) c = bt.GetPixel(443, j);
-                         else
-                         c = bt.GetPixel(1845 , j) ;
-                         //c.R = 0; // màu đen                            
-                         if (c.R == 0)
-                         {
-                             if (k == 0) 
-                             {
-                                                             
-                                 if(y==0)
-                                 {
-                                     y = j;
-                                     y1 = j;
-                                 }
-                                 else
-                                 {
-                                     y1 = y;
-                                 }
+                        // chuyển thành ảnh cấp xám xong Nhi Phan (Đen thành đen , Trắng Thành Trắng)                        
+                        for (int m = 0; m < sourceimage.Width; m++)
+                            for (int j = 0; j < sourceimage.Height; j++)
+                            {
+                                c = sourceimage.GetPixel(m, j);
+                                //c.R = 0; // màu đen
+                                int grayScale = (int)((c.R * 0.3) + (c.G * 0.59) + (c.B * 0.11));
+                                sourceimage.SetPixel(m, j, Color.FromArgb(c.A, grayScale, grayScale, grayScale));
+                                if (c.R < 140) sourceimage.SetPixel(m, j, Color.Black);
+                                else sourceimage.SetPixel(m, j, Color.White);
+                            }
+                        bt = sourceimage.ToManagedImage();
+                        bt = Crop(bt);
+                        filePath = rootPath + nameFielCV[0] + "output_grayCV" + i + ".bmp";
+                        if (!System.IO.File.Exists(filePath))
+                        {
+                            FileStream output_gray = new FileStream((rootPath + nameFielCV[0] + "output_grayCV" + i + ".bmp"), FileMode.Create);
+                            bt.Save(output_gray, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            output_gray.Dispose();
+                            output_gray.Close();
+                        }   
+                    }
+                    else
+                    {
+                        // Thao tác với bt
+                        bt = (Bitmap)Bitmap.FromFile((rootPath + nameFielCV[0] + "output_grayCV" + i + ".bmp"));
+                        cloneBitmapCopyC = bt.LockBits(new System.Drawing.Rectangle(0, 0, bt.Width, bt.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, bt.PixelFormat);
+                        sourceimage = new UnmanagedImage(cloneBitmapCopyC);
+                    }
                                 
-                             }
-                             else
-                             {
-                                 y2 = j;                              
-                             }
-                             k++;
-                                
-                         }
-                     }
-                     test = k;
-                     k = 0;
-                     for (int m = 0; m < bt.Width; m++)
-                     {
-                         c = bt.GetPixel(m, y1);
-                         //c.R = 0; // màu đen                            
-                         if (c.R == 0)
-                         {
-                             if (k == 0)
-                             {                               
-                                 if(x==0)
-                                 {
-                                     x = m;
-                                     x1 = m;
-                                 }
-                                 else
-                                 {
-                                     x1 = x;
-                                 }
-                                
-                             }                             
-                             else
-                             {
-                                 x2 = m;                               
-                             }
-                             k++;
-                         }
-                     }
-                     System.Drawing.Rectangle cloneRectSpace = new System.Drawing.Rectangle(x1, y1, x2-x1, y2-y1);
-                     Bitmap cloneBitmapSpace = bt.Clone(cloneRectSpace, PixelFormat.Format32bppArgb);
-                     FileStream output_Space = new FileStream(@"D:\hoctap\webasp\CongVan\CongVan\Areas\Admin\Files\Tmp\cv" + i + ".bmp", FileMode.Create);
-                     cloneBitmapSpace.Save(output_Space, ImageFormat.Jpeg);
-                     output_Space.Dispose();
-                     output_Space.Close();
-                */
-                    //Cắt tiêu đề
-                    int m1 = 0;
-                    Color b = bt.GetPixel(1380, 0);
+                    sourceimage = UnmanagedImage.FromManagedImage(bt);
+
+                    String nameFile = "";
                     if (i == 1)
                     {
-                        for (int j = 113; j < bt.Height; j++)
+                        int ht, hs;
+                        ht = hs = 0;
+
+                        //Cắt tiêu đề  
+                        nameFile = nameFielCV[0] + "donviSoanCV";
+                        Dictionary<string, int> dictionaryheightDV = CropImgae(cloneBitmapCopyC, bt, sourceimage, ht, nameFile);
+                        ht = dictionaryheightDV["height"] + (int)1.3 * dictionaryheightDV["heighd"];
+                        Bitmap dvCV = (Bitmap)Bitmap.FromFile((rootPath + nameFile + ".bmp"));
+                        NoiSoanCV = GetText(dvCV);
+
+                        //cắt số công văn
+                        nameFile = nameFielCV[0] + "soCV";
+                        Dictionary<string, int> dictionaryheightSoCV = CropImgae(cloneBitmapCopyC, bt, sourceimage, ht, nameFile);
+                        ht = ht + dictionaryheightSoCV["height"];
+                        Bitmap soCV = (Bitmap)Bitmap.FromFile((rootPath + nameFile + ".bmp"));
+                        SoCV = GetText(soCV);
+
+                        //cắt tiêu đề công văn
+                        nameFile = nameFielCV[0] + "TieuDeCV";
+                        Dictionary<string, int> dictionaryheightTieuDeCV = CropImgae(cloneBitmapCopyC, bt, sourceimage, ht, nameFile);
+                        Bitmap TieuDeCVBit = (Bitmap)Bitmap.FromFile((rootPath + nameFile + ".bmp"));
+                        ht = ht + dictionaryheightTieuDeCV["height"];
+                        if (ht > 460)
                         {
-                            if (i == 1) b = bt.GetPixel(1380, j);
-                            //c.R = 0; // màu đen                            
-                            if (b.R == 0)
-                            {
-                                m1 = j;
-
-                            }
+                            ht = ht + (int)(2 * dictionaryheightTieuDeCV["heighd"]);
                         }
+                        TieuDeCV = GetText(TieuDeCVBit);
 
-                        System.Drawing.Rectangle cloneRectBlack = new System.Drawing.Rectangle(1380, m1, 1533 - 1380, m1 - 113);
-                        Bitmap cloneBitmapBlack = bt.Clone(cloneRectBlack, PixelFormat.Format32bppArgb);
-                        FileStream output_Black = new FileStream(@"D:\hoctap\webasp\CongVan\CongVan\Areas\Admin\Files\Tmp\Black" + i + ".bmp", FileMode.Create);
-                        cloneBitmapBlack.Save(output_Black, ImageFormat.Jpeg);
+                        //cắt nội dung
+                        nameFile = nameFielCV[0] + "NoiDungCV";
+                        BitmapData cloneBitmapNoiDungCV = bt.LockBits(new System.Drawing.Rectangle(0, ht, sourceimage.Width, sourceimage.Height - ht), System.Drawing.Imaging.ImageLockMode.ReadWrite, bt.PixelFormat);
 
-                        output_Black.Dispose();
-                        output_Black.Close();
+                        UnmanagedImage titileImage = new UnmanagedImage(cloneBitmapNoiDungCV);
+                        Bitmap imgTitile = titileImage.ToManagedImage();
+                        filePath = rootPath + nameFile + ".bmp";
+                        if (!System.IO.File.Exists(filePath))
+                        {
+                            FileStream output_title = new FileStream((rootPath + nameFile + ".bmp"), FileMode.Create);
+                            imgTitile.Save(output_title, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            output_title.Dispose();
+                            output_title.Close();
+                        }                      
+                        Bitmap NoiDungCVBit = (Bitmap)Bitmap.FromFile((rootPath + nameFile + ".bmp"));
+                        NoiDungCV = GetText(NoiDungCVBit);
                     }
-                    
-                    try
+                    if (i == pageNum)
                     {
-                      
-                        //Response.Write("Hello--" + output.Name);
-                        // Clone Image
-                       // System.Drawing.Rectangle cloneRect = new System.Drawing.Rectangle(1640, 2955, 416, 64);
-                        // 1640,2950 là tọa độ góc trái trên cùng của vùng
-                        // 416,64 là width vs height
-                        //Bitmap cloneBitmap = sourceImg.Clone(cloneRect, PixelFormat.Format32bppArgb);
-                        // Xong clone
-                        // Search SetResolution cho Bitmap
-
-                        //
-
-                       // FileStream output_1 = new FileStream("~/Areas/Admin/Files/Tmp/output" + i + ".bmp", FileMode.Create);
-
-                       // cloneBitmap.Save(output_1, ImageFormat.Jpeg);
-                        //Nhi Phan (Đen thành đen , Trắng Thành Trắng)
-                        /*
-                         private Bitmap Phanvung(UnmanagedImage bm, int n)
+                        //cắt nơi nhận, chữ ký
+                        bool kt = false;
+                        for (int k = (int)(0.98 * bt.Height); k < bt.Height; k++)
                         {
-
-                        UnmanagedImage sourceImage = bm;
-
-                                Color c;
-                                for (int i = 0; i < sourceImage.Width; i++)
-                                    for (int j = 0; j < sourceImage.Height; j++)
-                                    {
-                                        c = sourceImage.GetPixel(i, j);
-                                        c.R == 0 // màu đen
-                                        if (c.R > n) sourceImage.SetPixel(i, j, Color.White);
-                                        else sourceImage.SetPixel(i, j, Color.Black);
-
-
+                            c = sourceimage.GetPixel((int)(0.5 * bt.Width), k);
+                            if (c.R == 0)
+                            {
+                                kt = true; break;
                             }
-                            return bm.ToManagedImage();
+                        }
+                        if (kt)
+                        {
+                            BitmapData cloneBitmapPageEnd = bt.LockBits(new System.Drawing.Rectangle(0, 0, bt.Width, bt.Height - 114), System.Drawing.Imaging.ImageLockMode.ReadWrite, bt.PixelFormat);
+                            sourceimage = new UnmanagedImage(cloneBitmapPageEnd);
+                            bt = sourceimage.ToManagedImage();
+                            bt = Crop(bt);
+                            nameFile = nameFielCV[0] + "PageEndCV";
+                            filePath = rootPath + nameFile + ".bmp";
+                            if (!System.IO.File.Exists(filePath))
+                            {
+                                FileStream PageEndCV = new FileStream((rootPath + nameFile + ".bmp"), FileMode.Create);
+                                bt.Save(PageEndCV, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                PageEndCV.Dispose();
+                                PageEndCV.Close();                    
+                            }                                  
+                            sourceimage = UnmanagedImage.FromManagedImage(bt);
+                            //bt.UnlockBits(cloneBitmapPageEnd);
                         }
 
-                        */
-                        //
-                        // Cắt khoảng trắng nhá , Lấy ra 4 điểm cạnh của công văn.Xong rồi Tính ra tọa độ góc trái trên cùng, width height của vùng đấy
-                        // Cắt ra ảnh con mà không có khoảng trắng
-                        // bắt đầu cắt từng vùng ra
-                        // Dùng thư viện lấy ra text
+                        //cắt chữ ký
+                        nameFile = nameFielCV[0] + "ChuKyCV";
+                        BitmapData cloneBitmapChuKyCV = bt.LockBits(new System.Drawing.Rectangle((int)(0.5 * sourceimage.Width), (int)(0.9 * sourceimage.Height), (int)(0.4 * sourceimage.Width), sourceimage.Height - (int)(0.9 * sourceimage.Height)), System.Drawing.Imaging.ImageLockMode.ReadWrite, bt.PixelFormat);
 
-                        //
-                       // output_1.Dispose();
-                        //output_1.Close();
+                        UnmanagedImage ChuKyImage = new UnmanagedImage(cloneBitmapChuKyCV);
+                        Bitmap ChuKyTitile = ChuKyImage.ToManagedImage();
+                        ChuKyTitile = Crop(ChuKyTitile);
+                        filePath = rootPath + nameFile + ".bmp";
+                        if (!System.IO.File.Exists(filePath))
+                        {
+                            FileStream output_ChuKy = new FileStream((rootPath + nameFile + ".bmp"), FileMode.Create, FileAccess.ReadWrite);
+                            ChuKyTitile.Save(output_ChuKy, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            output_ChuKy.Dispose();
+                            output_ChuKy.Close();
+                        }
+                       
+                        bt.UnlockBits(cloneBitmapChuKyCV);
+                        Bitmap ChuKyCVBit = (Bitmap)Bitmap.FromFile((rootPath + nameFile + ".bmp"));
+                        ChuKyCV = GetText(ChuKyCVBit);
+
+                        // cắt nơi nhận                   
+
+                        nameFile = nameFielCV[0] + "NoiNhanCV";
+                        BitmapData cloneBitmapNoiNhanCV;                        
+                        if (!kt)
+                        {
+                            cloneBitmapNoiNhanCV = bt.LockBits(new System.Drawing.Rectangle(0, (int)(0.8 * (sourceimage.Height)), (int)(0.5 * sourceimage.Width), sourceimage.Height - (int)(0.8 * sourceimage.Height) - 50), System.Drawing.Imaging.ImageLockMode.ReadWrite, bt.PixelFormat);
+                        }
+                        else
+                            cloneBitmapNoiNhanCV = bt.LockBits(new System.Drawing.Rectangle(0, (int)(0.6 * (sourceimage.Height - 10)), (int)(0.5 * sourceimage.Width), sourceimage.Height - (int)(0.6 * sourceimage.Height) - 50), System.Drawing.Imaging.ImageLockMode.ReadWrite, bt.PixelFormat);
+
+                        UnmanagedImage NoiNhanImage = new UnmanagedImage(cloneBitmapNoiNhanCV);
+                        Bitmap NoiNhanTitile = NoiNhanImage.ToManagedImage();
+                        NoiNhanTitile = Crop(NoiNhanTitile);
+                         filePath = rootPath + nameFile + ".bmp";
+                         if (!System.IO.File.Exists(filePath))
+                         {
+                             FileStream output_NoiNhan = new FileStream((rootPath + nameFile + ".bmp"), FileMode.Create);
+                             NoiNhanTitile.Save(output_NoiNhan, System.Drawing.Imaging.ImageFormat.Jpeg);
+                             output_NoiNhan.Dispose();
+                             output_NoiNhan.Close();
+                         }
+                        
+                        Bitmap NoiNhanCVBit = (Bitmap)Bitmap.FromFile((rootPath + nameFile + ".bmp"));
+                        NoiNhanCV = GetText(NoiNhanCVBit);
+                        bt.UnlockBits(cloneBitmapChuKyCV);
                     }
-                    catch { }
+                }
+                //Lưu thông tin vừa cắt vào cơ sở dữ liệu
+                row data = new row();
+                //NoiSoanCV, SoCV, TieuDeCV, NoiDungCV, NoiNhanCV, ChuKyCV;
+                data.from_org = NoiSoanCV;
+                data.number_dispatch = SoCV;
+                data.title = TieuDeCV;
+                data._abstract = NoiDungCV;
+                data.to_org = NoiNhanCV;
+                data.name_signer = ChuKyCV;
+                data.attach_file = file.FileName;
+                try
+                {
+                    db.rows.Add(data);
+                    db.SaveChanges();
 
+                    return RedirectToAction("List", "CongVan");
+                }
+                catch (Exception e)
+                {
+                    string x = e.InnerException.ToString();
+                    return RedirectToAction("Index");
                 }
             }
-            
+
             return View();
-        }
-
-        public string base64Decode(string data)
-        {
-            try
-            {
-                System.Text.UTF8Encoding encoder = new System.Text.UTF8Encoding();
-                System.Text.Decoder utf8Decode = encoder.GetDecoder();
-
-                byte[] todecode_byte = Convert.FromBase64String(data);
-                int charCount = utf8Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
-                char[] decoded_char = new char[charCount];
-                utf8Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
-                string result = new String(decoded_char);
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Error in base64Decode" + e.Message);
-            }
-        }
-        public string ImageToBase64(System.Drawing.Image image, System.Drawing.Imaging.ImageFormat format)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                // Convert Image to byte[]
-                image.Save(ms, format);
-                byte[] imageBytes = ms.ToArray();
-
-                // Convert byte[] to Base64 String
-                string base64String = Convert.ToBase64String(imageBytes);
-                return base64String;
-            }
         }
         public static Bitmap Crop(Bitmap bmp)
         {
@@ -527,19 +695,6 @@ namespace CongVan.Areas.Admin.Controllers
                 }
                 return text.ToString();
             }
-        }  
-        public FileResult ShowDocument(string FilePath)
-        {
-            return File(Server.MapPath("~/Areas/Admin/Files") + FilePath, GetMimeType(FilePath));
         }
-        private string GetMimeType(string fileName)
-        {
-            string mimeType = "application/unknown";
-            string ext = System.IO.Path.GetExtension(fileName).ToLower();
-            Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
-            if (regKey != null && regKey.GetValue("Content Type") != null)
-                mimeType = regKey.GetValue("Content Type").ToString();
-            return mimeType;
-        }  
     }
 }

@@ -17,7 +17,6 @@ namespace CongVan.Areas.Admin.Models
             follows = new HashSet<follow>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
         public int? depcatid { get; set; }

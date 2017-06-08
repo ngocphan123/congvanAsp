@@ -132,3 +132,12 @@ body {
   color: #333333;
   text-decoration: none;
 }
+.body-content {
+    padding-top: 5px;
+}
+.submit-search {
+    margin-top: 10px;
+}
+.well strong {
+    padding-bottom: 10px;
+}

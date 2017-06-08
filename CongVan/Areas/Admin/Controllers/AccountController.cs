@@ -34,7 +34,7 @@ namespace CongVan.Areas.Admin.Controllers
             {
                 if (CheckLogin(user, pass, rb))
                 {
-                    return RedirectToAction("Index", "Home", null);
+                    return RedirectToAction("List", "CongVan", null);
                 }
                 else
                 {
@@ -68,6 +68,12 @@ namespace CongVan.Areas.Admin.Controllers
                 }
             }
             return false;
+        }
+        public ActionResult Logout()
+        {
+            Session["Ad_TenDangNhap"] = null;
+            Session["Ad_MaQuyen"] = null;
+            return RedirectToAction("Login", "Account", null);
         }
     }
 }

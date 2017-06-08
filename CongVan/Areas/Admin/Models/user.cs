@@ -14,7 +14,6 @@ namespace CongVan.Areas.Admin.Models
             employees = new HashSet<employee>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
         public int? group_id { get; set; }
